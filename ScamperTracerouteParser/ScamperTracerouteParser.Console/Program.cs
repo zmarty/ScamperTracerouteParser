@@ -1,6 +1,7 @@
 ﻿namespace ScamperTracerouteParser.Console
 {
     using System;
+    using System.Globalization;
 
     class Program
     {
@@ -10,7 +11,7 @@
 
             foreach (var traceroute in TracerouteTextDumpParser.ParseFile(@"D:\Downloads\daily.txt"))
             {
-                ////Console.WriteLine(traceroute.Destination);
+                ////Console.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0} - {1} - {2}", traceroute.Source, traceroute.Destination, traceroute.Hops.Count));
 
                 counter++;
 
