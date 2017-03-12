@@ -16,9 +16,14 @@ To access the restricted database you need to [request access](https://www.caida
 The example below downloads all daily data for 2017. If you need to download data for a different year, change the paths.
 
 ```Bash
+# Download 2017 daily results for team-1, team-2, and team-3
 wget --user=USER --password=PASSWORD --no-parent --recursive https://topo-data.caida.org/team-probing/list-7.allpref24/team-1/daily/2017/
 wget --user=USER --password=PASSWORD --no-parent --recursive https://topo-data.caida.org/team-probing/list-7.allpref24/team-2/daily/2017/
 wget --user=USER --password=PASSWORD --no-parent --recursive https://topo-data.caida.org/team-probing/list-7.allpref24/team-3/daily/2017/
 
+# gunzip all warts files
 gunzip -r ./
+
+# Run sc_analysis_dump on all warts files, and output the result as individual .txt files, one for each warts file
+find . -name "*.warts" -exec sh -c 'sc_analysis_dump "{}" > "{}.txt"' \;
 ```
