@@ -24,8 +24,11 @@ wget --user=USER --password=PASSWORD --no-parent --recursive https://topo-data.c
 # gunzip all warts files
 gunzip -r ./
 
-# Run sc_analysis_dump on all warts files, and output the result as individual .txt files, one for each warts file
+# Run sc_analysis_dump on all warts files individually, and output the result as individual .txt files, one for each warts file
 find . -name "*.warts" -exec sh -c 'sc_analysis_dump "{}" > "{}.txt"' \;
+
+# Run sc_analysis_dump on all warts files at the same time, and output a single .txt file
+find . -name "*.warts" -exec sc_analysis_dump "{}" > "all_traceroutes.txt" +
 ```
 ## Parsing traceroutes
 
