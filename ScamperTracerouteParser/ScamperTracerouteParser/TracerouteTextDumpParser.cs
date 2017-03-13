@@ -93,7 +93,7 @@
             traceroute.DestinationReplied = ParseDestReplied(parts[6]);
 
             // 8. DestRTT -- RTT (ms) of first response packet from destination. 0 if DestReplied is N.
-            traceroute.DestinationRTT = double.Parse(parts[7]);
+            traceroute.DestinationRTT = decimal.Parse(parts[7]);
 
             // 9. RequestTTL -- TTL set in request packet which elicited a response (echo reply) from the destination. 0 if DestReplied is N.
             traceroute.RequestTTL = int.Parse(parts[8]);
@@ -279,7 +279,7 @@
                 var hopIPInfo = new ScamperHopIPInfo()
                 {
                     IP = IPAddress.Parse(infoParts[0]),
-                    RTT = double.Parse(infoParts[1]),
+                    RTT = decimal.Parse(infoParts[1]),
                     Tries = int.Parse(infoParts[2])
                 };
 

@@ -43,6 +43,8 @@
     <Compile Include="Enums\DestReplied.cs" />
     <Compile Include="Enums\HaltReason.cs" />
     <Compile Include="Enums\PathComplete.cs" />
+    <Compile Include="LatencyNeighbors\LatencyNeighborsExtractor.cs" />
+    <Compile Include="LatencyNeighbors\LatencyNeighborPair.cs" />
     <Compile Include="ScamperHop.cs" />
     <Compile Include="ScamperTraceroute.cs" />
     <Compile Include="ScamperHopIPInfo.cs" />

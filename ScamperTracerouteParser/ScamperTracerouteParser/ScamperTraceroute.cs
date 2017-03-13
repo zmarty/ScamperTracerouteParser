@@ -49,7 +49,7 @@
 
         // WARNING: Do not use float here or the parser will incorrectly store some values
         // 8. DestRTT -- RTT (ms) of first response packet from destination. 0 if DestReplied is N.
-        public double DestinationRTT { get; set; }
+        public decimal DestinationRTT { get; set; }
 
         // 9. RequestTTL -- TTL set in request packet which elicited a response (echo reply) from the destination. 0 if DestReplied is N.
         public int RequestTTL { get; set; }

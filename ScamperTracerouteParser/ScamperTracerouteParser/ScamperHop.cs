@@ -24,5 +24,15 @@
     {
         // If multiple IP addresses respond at the same hop, response data for each IP address are separated by semicolons:
         public List<ScamperHopIPInfo> IPs { get; set; }
+
+        public override string ToString()
+        {
+            if (this.IPs == null || this.IPs.Count == 0)
+            {
+                return "(No IPs)";
+            }
+
+            return string.Join(", ", this.IPs);
+        }
     }
 }
