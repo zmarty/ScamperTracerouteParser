@@ -90,7 +90,7 @@
             #            equal no_halt.  Note: scamper does not perform last-ditch
             #            probing at TTL 255 by default.
             */
-            traceroute.DestinationReplied = ParseDestReplied(parts[6]);
+            traceroute.DestinationReplied = ParseDestReplied(line, parts[6]);
 
             // 8. DestRTT -- RTT (ms) of first response packet from destination. 0 if DestReplied is N.
             traceroute.DestinationRTT = decimal.Parse(parts[7]);
@@ -113,7 +113,7 @@
             #        L (loop_detected)      loop_length
             #        G (gap_detected)       gap_limit
             */
-            traceroute.HaltReason = ParseHaltReason(parts[10]);
+            traceroute.HaltReason = ParseHaltReason(line, parts[10]);
             traceroute.HaltReasonData = parts[11];
 
             /*
@@ -123,7 +123,7 @@
             #        I - Incomplete, at least one hop is missing (i.e., did not
             #            respond)
             */
-            traceroute.PathComplete = ParsePathComplete(parts[12]);
+            traceroute.PathComplete = ParsePathComplete(line, parts[12]);
 
             var hops = new List<ScamperHop>();
 
@@ -149,7 +149,7 @@
                 #       This field will have the value 'q' if there was no response at
                 #       this hop.
                 */
-                hops.Add(ParseHop(hopData));
+                hops.Add(ParseHop(line, hopData));
             }
 
             traceroute.Hops = hops;
@@ -175,7 +175,7 @@
         #            equal no_halt.  Note: scamper does not perform last-ditch
         #            probing at TTL 255 by default.
         */
-        public static DestReplied ParseDestReplied(string value)
+        public static DestReplied ParseDestReplied(string line, string value)
         {
             switch (value)
             {
@@ -184,7 +184,7 @@
                 case "N":
                     return DestReplied.NotReplied;
                 default:
-                    throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "Provided value is invalid in ParseDestReplied: {0}", value));
+                    throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "Provided value is invalid in ParseDestReplied: {0} and line: {1}", value, line));
             }
         }
 
@@ -200,7 +200,7 @@
         #        L (loop_detected)      loop_length
         #        G (gap_detected)       gap_limit
         */
-        public static HaltReason ParseHaltReason(string value)
+        public static HaltReason ParseHaltReason(string line, string value)
         {
             switch (value)
             {
@@ -213,7 +213,7 @@
                 case "G":
                     return HaltReason.GapDetected;
                 default:
-                    throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "Provided value is invalid in ParseHaltReason: {0}", value));
+                    throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "Provided value is invalid in ParseHaltReason: {0} and line: {1}", value, line));
             }
         }
 
@@ -224,7 +224,7 @@
         #        I - Incomplete, at least one hop is missing (i.e., did not
         #            respond)
         */
-        public static PathComplete ParsePathComplete(string value)
+        public static PathComplete ParsePathComplete(string line, string value)
         {
             switch (value)
             {
@@ -233,7 +233,7 @@
                 case "I":
                     return PathComplete.Incomplete;
                 default:
-                    throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "Provided value is invalid in ParsePathComplete: {0}", value));
+                    throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "Provided value is invalid in ParsePathComplete: {0} and line: {1}", value, line));
             }
         }
 
@@ -255,7 +255,7 @@
         #       This field will have the value 'q' if there was no response at
         #       this hop.
          */
-        public static ScamperHop ParseHop(string value)
+        public static ScamperHop ParseHop(string line, string value)
         {
             // This field will have the value 'q' if there was no response at this hop.
             if (value == "q")
@@ -273,7 +273,7 @@
 
                 if (infoParts.Length != 3)
                 {
-                    throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "Number of infoParts in ParseHop was not 3 for rawIPInfo: {0}", rawIPInfo));
+                    throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "Number of infoParts in ParseHop was not 3 for rawIPInfo: {0} and line: {1}", rawIPInfo, line));
                 }
 
                 var hopIPInfo = new ScamperHopIPInfo()

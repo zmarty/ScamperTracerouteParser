@@ -39,7 +39,7 @@
 
             var lastIPInfoInHop = lastHop.IPs[1];
             Assert.AreEqual(IPAddress.Parse("10.246.250.98"), lastIPInfoInHop.IP);
-            Assert.AreEqual(26434.998, lastIPInfoInHop.RTT);
+            Assert.AreEqual(246.193m, lastIPInfoInHop.RTT);
             Assert.AreEqual(3, lastIPInfoInHop.Tries);
         }
     }
