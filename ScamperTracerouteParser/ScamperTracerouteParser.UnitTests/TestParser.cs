@@ -52,6 +52,9 @@
             var traceroute = TracerouteTextDumpParser.ParseLine(line);
 
             Assert.AreEqual(HaltReason.Unknown, traceroute.HaltReason);
+
+            var neighborPairs = traceroute.FindLatencyNeighbors();
+            Assert.AreEqual(0, neighborPairs.Count);
         }
     }
 }
