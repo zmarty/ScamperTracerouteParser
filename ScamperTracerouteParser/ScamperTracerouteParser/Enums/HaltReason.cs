@@ -14,6 +14,7 @@
     */
     public enum HaltReason
     {
+        Unknown = -1,
         Unreachable = 0,
         Success = 1,
         LoopDetected = 2,

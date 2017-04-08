@@ -204,6 +204,8 @@
         {
             switch (value)
             {
+                case "?":
+                    return HaltReason.Unknown;
                 case "S":
                     return HaltReason.Success;
                 case "U":

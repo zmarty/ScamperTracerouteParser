@@ -42,5 +42,16 @@
             Assert.AreEqual(246.193m, lastIPInfoInHop.RTT);
             Assert.AreEqual(3, lastIPInfoInHop.Tries);
         }
+
+        [DeploymentItem(@"App_Data\ScamperSample1.txt", @"App_Data")]
+        [TestMethod]
+        public void TestHaltReasonFailure()
+        {
+            var line = "T	91.200.16.102	91.200.16.106	7	5512	1488851553	N	0	0	0	?	0	I";
+
+            var traceroute = TracerouteTextDumpParser.ParseLine(line);
+
+            Assert.AreEqual(HaltReason.Unknown, traceroute.HaltReason);
+        }
     }
 }
