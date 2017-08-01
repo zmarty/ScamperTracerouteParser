@@ -7,12 +7,12 @@
 
     public static class LatencyNeighborsExtractor
     {
-        public static List<LatencyNeighborPair> FindLatencyNeighbors(this ScamperTraceroute traceroute, decimal maximumLatencyDiff = 1)
+        public static List<LatencyNeighborPair> FindLatencyNeighbors(this ScamperTraceroute traceroute, decimal maximumLatencyDiff = 1, byte maxHopDifference = 255)
         {
-            return FindNeighbors(traceroute.Hops, maximumLatencyDiff);
+            return FindNeighbors(traceroute.Hops, maximumLatencyDiff, maxHopDifference);
         }
 
-        public static List<LatencyNeighborPair> FindNeighbors(List<ScamperHop> hops, decimal maximumLatencyDiff = 1)
+        public static List<LatencyNeighborPair> FindNeighbors(List<ScamperHop> hops, decimal maximumLatencyDiff = 1, byte maxHopDifference = 255)
         {
             var neighbors = new List<LatencyNeighborPair>();
 
@@ -28,7 +28,11 @@
                 for (var j = i + 1; j < hops.Count; j++)
                 {
                     var neighborHop = hops[j];
-                    neighbors.AddRange(FindNeighborsInHopPair(currentHop, i, neighborHop, j, maximumLatencyDiff));
+
+                    if (j-i <= maxHopDifference)
+                    {
+                        neighbors.AddRange(FindNeighborsInHopPair(currentHop, i, neighborHop, j, maximumLatencyDiff));
+                    }
                 }
             }
 
@@ -52,11 +56,6 @@
                             if (neighborIPInfo != null && neighborIPInfo.IP != null && currentIPInfo.IP != neighborIPInfo.IP)
                             {
                                 var latencyDiff = Math.Abs(currentIPInfo.RTT - neighborIPInfo.RTT);
-
-                                if (currentHopIndex == 12 && neighborHopIndex == 13)
-                                {
-                                    Console.WriteLine(neighborHopIndex);
-                                }
 
                                 if (latencyDiff <= maximumLatencyDiff)
                                 {

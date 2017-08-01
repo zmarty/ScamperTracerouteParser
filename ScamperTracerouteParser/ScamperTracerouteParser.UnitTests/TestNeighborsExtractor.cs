@@ -33,5 +33,21 @@
 
             Assert.AreEqual((decimal)0.1, lastPair.LatencyDiff);
         }
+
+        [DeploymentItem(@"App_Data\ScamperSample1.txt", @"App_Data")]
+        [TestMethod]
+        public void TestNeighborsMaxHopDiff()
+        {
+            ScamperTraceroute currentTraceroute = null;
+
+            foreach (var traceroute in TracerouteTextDumpParser.ParseFile(@"App_Data\ScamperSample1.txt"))
+            {
+                currentTraceroute = traceroute;
+            }
+
+            var neighborPairs = currentTraceroute.FindLatencyNeighbors(maxHopDifference: 2);
+
+            Assert.AreEqual(9, neighborPairs.Count);
+        }
     }
 }
