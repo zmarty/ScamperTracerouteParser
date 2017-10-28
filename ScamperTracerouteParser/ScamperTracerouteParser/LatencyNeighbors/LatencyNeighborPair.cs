@@ -13,6 +13,10 @@
 
         public int Neighbor2HopIndex { get; set; }
 
+        public decimal Neighbor1RTT { get; set; }
+
+        public decimal Neighbor2RTT { get; set; }
+
         public int DiffDistanceInHops { get; set; }
 
         public decimal LatencyDiff { get; set; }

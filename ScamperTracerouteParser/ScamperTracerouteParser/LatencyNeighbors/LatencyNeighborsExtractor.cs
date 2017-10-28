@@ -12,7 +12,7 @@
             return FindNeighbors(traceroute.Hops, maximumLatencyDiff, maxHopDifference);
         }
 
-        public static List<LatencyNeighborPair> FindNeighbors(List<ScamperHop> hops, decimal maximumLatencyDiff = 1, byte maxHopDifference = 255)
+        public static List<LatencyNeighborPair> FindNeighbors(List<ScamperHop> hops, decimal maximumLatencyDiff = 1, byte maxHopDifference = 255, decimal maxRTT = 262144)
         {
             var neighbors = new List<LatencyNeighborPair>();
 
@@ -31,7 +31,7 @@
 
                     if (j-i <= maxHopDifference)
                     {
-                        neighbors.AddRange(FindNeighborsInHopPair(currentHop, i, neighborHop, j, maximumLatencyDiff));
+                        neighbors.AddRange(FindNeighborsInHopPair(currentHop, i, neighborHop, j, maximumLatencyDiff, maxRTT));
                     }
                 }
             }
@@ -39,7 +39,7 @@
             return neighbors;
         }
 
-        private static IEnumerable<LatencyNeighborPair> FindNeighborsInHopPair(ScamperHop currentHop, int currentHopIndex, ScamperHop neighborHop, int neighborHopIndex, decimal maximumLatencyDiff)
+        private static IEnumerable<LatencyNeighborPair> FindNeighborsInHopPair(ScamperHop currentHop, int currentHopIndex, ScamperHop neighborHop, int neighborHopIndex, decimal maximumLatencyDiff, decimal maxRTT)
         {
             if (currentHop != null && neighborHop != null && currentHop.IPs != null && neighborHop.IPs != null)
             {
@@ -53,7 +53,7 @@
                         {
                             var neighborIPInfo = neighborHop.IPs[j];
 
-                            if (neighborIPInfo != null && neighborIPInfo.IP != null && currentIPInfo.IP != neighborIPInfo.IP)
+                            if (neighborIPInfo != null && neighborIPInfo.IP != null && currentIPInfo.IP != neighborIPInfo.IP && currentIPInfo.RTT <= maxRTT && neighborIPInfo.RTT <= maxRTT)
                             {
                                 var latencyDiff = Math.Abs(currentIPInfo.RTT - neighborIPInfo.RTT);
 
@@ -65,6 +65,8 @@
                                         Neighbor2 = neighborIPInfo.IP,
                                         Neighbor1HopIndex = currentHopIndex,
                                         Neighbor2HopIndex = neighborHopIndex,
+                                        Neighbor1RTT = currentIPInfo.RTT,
+                                        Neighbor2RTT = neighborIPInfo.RTT,
                                         DiffDistanceInHops = neighborHopIndex - currentHopIndex,
                                         LatencyDiff = latencyDiff
                                     };
