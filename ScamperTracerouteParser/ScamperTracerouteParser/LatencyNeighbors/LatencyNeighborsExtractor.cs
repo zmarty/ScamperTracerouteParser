@@ -7,9 +7,9 @@
 
     public static class LatencyNeighborsExtractor
     {
-        public static List<LatencyNeighborPair> FindLatencyNeighbors(this ScamperTraceroute traceroute, decimal maximumLatencyDiff = 1, byte maxHopDifference = 255)
+        public static List<LatencyNeighborPair> FindLatencyNeighbors(this ScamperTraceroute traceroute, decimal maximumLatencyDiff = 1, byte maxHopDifference = 255, decimal maxRTT = 262144)
         {
-            return FindNeighbors(traceroute.Hops, maximumLatencyDiff, maxHopDifference);
+            return FindNeighbors(traceroute.Hops, maximumLatencyDiff, maxHopDifference, maxRTT);
         }
 
         public static List<LatencyNeighborPair> FindNeighbors(List<ScamperHop> hops, decimal maximumLatencyDiff = 1, byte maxHopDifference = 255, decimal maxRTT = 262144)
