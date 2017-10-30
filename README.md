@@ -21,8 +21,11 @@ wget --user=USER --password=PASSWORD --no-parent --recursive https://topo-data.c
 wget --user=USER --password=PASSWORD --no-parent --recursive https://topo-data.caida.org/team-probing/list-7.allpref24/team-2/daily/2017/
 wget --user=USER --password=PASSWORD --no-parent --recursive https://topo-data.caida.org/team-probing/list-7.allpref24/team-3/daily/2017/
 
-# gunzip all warts files
+# gunzip all warts files, one by one
 gunzip -r ./
+
+# or gunzip multiple files in parallel (set to 16 at a time):
+#find . -name '*.gz' -print0 | xargs -0 -I {} -P 16 gunzip {}
 
 # Run sc_analysis_dump on all warts files individually, and output the result as individual .txt files, one for each warts file
 find . -name "*.warts" -exec sh -c 'sc_analysis_dump "{}" > "{}.txt"' \;
