@@ -24,7 +24,7 @@ wget --user=USER --password=PASSWORD --no-parent --recursive https://topo-data.c
 # gunzip all warts files, one by one
 gunzip -r ./
 
-# or gunzip multiple files in parallel (set to 16 at a time):
+# Or gunzip multiple files in parallel (set to 16 at a time):
 find . -name '*.gz' -print0 | xargs -0 -I {} -P 16 gunzip {}
 
 # Run sc_analysis_dump on all warts files individually, and output the result as individual .txt files, one for each warts file
