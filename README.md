@@ -25,13 +25,16 @@ wget --user=USER --password=PASSWORD --no-parent --recursive https://topo-data.c
 gunzip -r ./
 
 # or gunzip multiple files in parallel (set to 16 at a time):
-#find . -name '*.gz' -print0 | xargs -0 -I {} -P 16 gunzip {}
+find . -name '*.gz' -print0 | xargs -0 -I {} -P 16 gunzip {}
 
 # Run sc_analysis_dump on all warts files individually, and output the result as individual .txt files, one for each warts file
 find . -name "*.warts" -exec sh -c 'sc_analysis_dump "{}" > "{}.txt"' \;
 
 # Run sc_analysis_dump on all warts files at the same time, and output a single .txt file
 find . -name "*.warts" -exec sc_analysis_dump "{}" > "all_traceroutes.txt" +
+
+# Combine all txt files for January 2017 across all 3 teams into a single concatenated txt file
+find team-*/daily/2017/cycle-201701*/*.txt -exec cat {} + >> 2017-01-traceroutes.txt
 ```
 ## Parsing traceroutes
 
